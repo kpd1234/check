@@ -18,8 +18,8 @@ if st.button('Chicken'):
 else:
      st.write('Choose an Image')
 img_width, img_height = 224, 224
-train_data_dir = 'C:/Users/ptljk/chicken_train'
-validation_data_dir = 'C:/Users/ptljk/chicken_test'
+train_data_dir = 'chicken_train'
+validation_data_dir = 'chicken_test'
 nb_train_samples =22
 nb_validation_samples = 22
 epochs = 10
@@ -90,7 +90,7 @@ from keras import backend as K
 from keras.models import model_from_config, Sequential
 from keras.models import load_model
 
-model = keras.models.load_model('C:/Users/ptljk/model_saved.h5')
+model = keras.models.load_model('model_saved.h5')
 from streamlit_webrtc import webrtc_streamer
 
 webrtc_streamer(key="example")
@@ -105,7 +105,7 @@ if ii is not None:
     st.write("Predicted Class (1 - Fresh , 0- Unfresh): ", label[0][0])
     st.title("Freshness Report")
     st.write("Chosen Meat: Chicken")
-    image = Image.open('C:/Users/ptljk/chick.jpg')
+    image = Image.open('chick.jpg')
     st.image(image,width=200)
     st.write('Color')
     st.write('Texture')
@@ -113,13 +113,13 @@ if ii is not None:
     st.write("Decision ")
     if ((label[0][0])>.50):
         st.write("Fresh Meat")
-        im = Image.open('C:/Users/ptljk/wb.jpg')
+        im = Image.open('wb.jpg')
         st.image(im,width=200)
     elif ((label[0][0])<.50):
         st.write("Old Meat")
-        im = Image.open('C:/Users/ptljk/harm.jpg')
+        im = Image.open('harm.jpg')
         st.image(im,width=200)
         
     st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
-    im = Image.open('C:/Users/ptljk/r1.jpeg')
+    im = Image.open('r1.jpeg')
     st.image(im)
