@@ -9,7 +9,7 @@ st.title("Healthy Meat for a Healthy You!")
 st.markdown("<span style=“background-color:#121922”>",unsafe_allow_html=True)
 st.write('Choose your meat type')
 from PIL import Image
-image = Image.open('C:/Users/ptljk/chick.jpg')
+image = Image.open('chick.jpg')
 
 st.image(image,width=200)
 
