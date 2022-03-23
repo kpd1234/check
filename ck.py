@@ -97,7 +97,7 @@ webrtc_streamer(key="example")
 ii = st.file_uploader("Choose an image...", type=".jpg")
 if ii is not None:
     nn=ii.name
-    image = load_img('C:/Users/ptljk/testfile/'+str(nn), target_size=(227, 227))
+    image = load_img('testfile/'+str(nn), target_size=(227, 227))
     img = np.array(image)
     img = img / 255.0
     img = img.reshape(1,227,227,3)
