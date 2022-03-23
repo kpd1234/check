@@ -22,7 +22,7 @@ train_data_dir = 'chicken_train'
 validation_data_dir = 'chicken_test'
 nb_train_samples =22
 nb_validation_samples = 22
-epochs = 3
+epochs = 10
 batch_size = 16
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
@@ -91,6 +91,8 @@ from keras.models import model_from_config, Sequential
 from keras.models import load_model
 
 model = keras.models.load_model('model_saved.h5')
+
+
 MAX_FRAMES = 2
 import cv2 as cv2
 
@@ -106,6 +108,7 @@ if run:
     capture.release()
     st.markdown("Render complete")
     cv2.imwrite("uf.1.jpg",img) #save image
+
 ii = st.file_uploader("Choose an image...", type=".jpg")
 if ii is not None:
     nn=ii.name
@@ -114,14 +117,38 @@ if ii is not None:
     img = img / 255.0
     img = img.reshape(1,227,227,3)
     label = model.predict(img)
-    st.write("Predicted Class (1 - Fresh , 0- Unfresh): ", label[0][0])
+    st.write("Predicted Class (1 - Fresh , 0- Unfresh): ", (label[0][0]))
     st.title("Freshness Report")
     st.write("Chosen Meat: Chicken")
     image = Image.open('chick.jpg')
     st.image(image,width=200)
     st.write('Color')
-    st.write('Texture')
+    if ((label[0][0])<.40):
+        im = Image.open('40p.jpg')
+        st.image(im,width=200)
+    elif (.41<(label[0][0])<.70):
+        im = Image.open('70p.jpg')
+        st.image(im,width=200)
+    elif (.71<(label[0][0])<1):
+        im = Image.open('90p.jpg')
+        st.image(im,width=200)
+
     st.write('Freshness')
+    if ((label[0][0])<.30):
+        im = Image.open('30p.jpg')
+        st.image(im,width=200)
+    elif (.30<(label[0][0])<.50):
+        im = Image.open('40p.jpg')
+        st.image(im,width=200)
+    elif (.50<(label[0][0])<.70):
+        im = Image.open('70p.jpg')
+        st.image(im,width=200)
+    elif (.70<(label[0][0])<.80):
+        im = Image.open('80p.jpg')
+        st.image(im,width=200)
+    elif (.80<(label[0][0])<1):
+        im = Image.open('90p.jpg')
+        st.image(im,width=200)
     st.write("Decision ")
     if ((label[0][0])>.50):
         st.write("Fresh Meat")
