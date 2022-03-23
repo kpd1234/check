@@ -91,9 +91,21 @@ from keras.models import model_from_config, Sequential
 from keras.models import load_model
 
 model = keras.models.load_model('model_saved.h5')
-from streamlit_webrtc import webrtc_streamer
+MAX_FRAMES = 2
+import cv2 as cv2
 
-webrtc_streamer(key="example")
+
+run = st.button("Click to render server camera")
+
+if run:
+    capture = cv2.VideoCapture(0)
+    img_display = st.empty()
+    for i in range(MAX_FRAMES):
+        ret, img = capture.read()
+        img_display.image(img, channels='BGR')
+    capture.release()
+    st.markdown("Render complete")
+    cv2.imwrite("uf.1.jpg",img) #save image
 ii = st.file_uploader("Choose an image...", type=".jpg")
 if ii is not None:
     nn=ii.name
