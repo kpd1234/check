@@ -164,5 +164,5 @@ if ii is not None:
     st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
     im = Image.open('r1.jpeg')
     st.image(im)
-elif if ii is None:
+elif ii is None:
      st.write("Upload a File")
