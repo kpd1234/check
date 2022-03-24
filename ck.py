@@ -104,7 +104,7 @@ if run:
     img_display = st.empty()
     for i in range(MAX_FRAMES):
         ret, img = capture.read()
-        img_display.image(img, channels='BGR')
+        
     capture.release()
     st.markdown("Render complete")
     cv2.imwrite("newcap.1.jpg",img) #save image
