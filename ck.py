@@ -110,7 +110,7 @@ if run:
     cv2.imwrite("uf.1.jpg",img) #save image
 def pred():
     label = model.predict(img)
-
+    return label
 ii = st.file_uploader("Choose an image...", type=".jpg")
 if ii is not None:
     nn=ii.name
