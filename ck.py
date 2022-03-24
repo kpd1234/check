@@ -98,69 +98,72 @@ import cv2 as cv2
 
 
 run = st.button("Click to render server camera")
+try:
+     if run:
+         capture = cv2.VideoCapture(0)
+         img_display = st.empty()
+         for i in range(MAX_FRAMES):
+             ret, img = capture.read()
 
-if run:
-    capture = cv2.VideoCapture(0)
-    img_display = st.empty()
-    for i in range(MAX_FRAMES):
-        ret, img = capture.read()
-        
-    capture.release()
-    st.markdown("Render complete")
-    cv2.imwrite("newcap.1.jpg",img) #save image
-    try:
-            image = load_img('testfile/'+str(nn), target_size=(227, 227))
-            img = np.array(image)
-            img = img / 255.0
-            img = img.reshape(1,227,227,3)
-            label = model.predict(img)
-            st.write("Predicted Class (0 - Fresh , 1 - Unfresh): ", (label[0][0]))
-            st.title("Freshness Report")
-            st.write("Chosen Meat: Chicken")
-            image = Image.open('chick.jpg')
-            st.image(image,width=200)
-            st.write('Color')
-            if ((label[0][0])<.40):
-                im = Image.open('90p.jpg')
-                st.image(im,width=200)
-            elif (.41<(label[0][0])<.55):
-                im = Image.open('70p.jpg')
-                st.image(im,width=200)
-            elif (.55<(label[0][0])<1):
-                im = Image.open('40p.jpg')
-                st.image(im,width=200)
+         capture.release()
+         st.markdown("Render complete")
+         cv2.imwrite("newcap.1.jpg",img) #save image
+         try:
+                 image = load_img('testfile/'+str(nn), target_size=(227, 227))
+                 img = np.array(image)
+                 img = img / 255.0
+                 img = img.reshape(1,227,227,3)
+                 label = model.predict(img)
+                 st.write("Predicted Class (0 - Fresh , 1 - Unfresh): ", (label[0][0]))
+                 st.title("Freshness Report")
+                 st.write("Chosen Meat: Chicken")
+                 image = Image.open('chick.jpg')
+                 st.image(image,width=200)
+                 st.write('Color')
+                 if ((label[0][0])<.40):
+                     im = Image.open('90p.jpg')
+                     st.image(im,width=200)
+                 elif (.41<(label[0][0])<.55):
+                     im = Image.open('70p.jpg')
+                     st.image(im,width=200)
+                 elif (.55<(label[0][0])<1):
+                     im = Image.open('40p.jpg')
+                     st.image(im,width=200)
 
-            st.write('Freshness')
-            if ((label[0][0])<.30):
-                im = Image.open('90p.jpg')
-                st.image(im,width=200)
-            elif (.30<(label[0][0])<=.50):
-                im = Image.open('70p.jpg')
-                st.image(im,width=200)
-            elif (.50<(label[0][0])<.70):
-                im = Image.open('40p.jpg')
-                st.image(im,width=200)
-            elif (.70<(label[0][0])<.80):
-                im = Image.open('30p.jpg')
-                st.image(im,width=200)
-            st.write("Decision ")
-            if ((label[0][0])<=.50):
-                st.write("Fresh Meat")
-                im = Image.open('wb.jpg')
-                st.image(im,width=200)
-            elif ((label[0][0])>.50):
-                st.write("Old Meat")
-                im = Image.open('harm.jpg')
-                st.image(im,width=200)
+                 st.write('Freshness')
+                 if ((label[0][0])<.30):
+                     im = Image.open('90p.jpg')
+                     st.image(im,width=200)
+                 elif (.30<(label[0][0])<=.50):
+                     im = Image.open('70p.jpg')
+                     st.image(im,width=200)
+                 elif (.50<(label[0][0])<.70):
+                     im = Image.open('40p.jpg')
+                     st.image(im,width=200)
+                 elif (.70<(label[0][0])<.80):
+                     im = Image.open('30p.jpg')
+                     st.image(im,width=200)
+                 st.write("Decision ")
+                 if ((label[0][0])<=.50):
+                     st.write("Fresh Meat")
+                     im = Image.open('wb.jpg')
+                     st.image(im,width=200)
+                 elif ((label[0][0])>.50):
+                     st.write("Old Meat")
+                     im = Image.open('harm.jpg')
+                     st.image(im,width=200)
 
-            st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
-            im = Image.open('r1.jpeg')
-            st.image(im)
-    except:
-            image = Image.open('index.jpg')
-            st.image(image,width=200)
-            st.write("Try with a meat image!")
-
+                 st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
+                 im = Image.open('r1.jpeg')
+                 st.image(im)
+         except:
+                 image = Image.open('index.jpg')
+                 st.image(image,width=200)
+                 st.write("Try with a meat image!")
+except:
+     image = Image.open('index.jpg')
+                 st.image(image,width=200)
+                 st.write("Try uploading a meat image!")
 
 ii = st.file_uploader("Choose an image...", type=".jpg")
 if ii is not None:
