@@ -109,6 +109,8 @@ if run:
     st.markdown("Render complete")
     cv2.imwrite("uf.1.jpg",img) #save image
 ii = st.file_uploader("Choose an image...", type=".jpg")
+score = model.evaluate(x_test, y_test, verbose=0)
+st.write(score)
 if ii is not None:
     nn=ii.name
     image = load_img('testfile/'+str(nn), target_size=(227, 227))
