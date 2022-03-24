@@ -22,8 +22,8 @@ train_data_dir = 'chicken_train'
 validation_data_dir = 'chicken_test'
 nb_train_samples =22
 nb_validation_samples = 22
-epochs = 10
-batch_size = 16
+epochs = 3
+batch_size = 5
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
 else:
