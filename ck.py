@@ -162,8 +162,8 @@ try:
                  st.write("Try with a meat image!")
 except:
      image = Image.open('index.jpg')
-                 st.image(image,width=200)
-                 st.write("Try uploading a meat image!")
+     st.image(image,width=200)
+     st.write("Try uploading a meat image!")
 
 ii = st.file_uploader("Choose an image...", type=".jpg")
 if ii is not None:
