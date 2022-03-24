@@ -108,9 +108,6 @@ if run:
     capture.release()
     st.markdown("Render complete")
     cv2.imwrite("uf.1.jpg",img) #save image
-def pred():
-    label = model.predict(img)
-    return label
 ii = st.file_uploader("Choose an image...", type=".jpg")
 if ii is not None:
     nn=ii.name
@@ -118,7 +115,7 @@ if ii is not None:
     img = np.array(image)
     img = img / 255.0
     img = img.reshape(1,227,227,3)
-    pred()
+    label = model.predict(img)
     st.write("Predicted Class (1 - Fresh , 0- Unfresh): ", (label[0][0]))
     st.title("Freshness Report")
     st.write("Chosen Meat: Chicken")
