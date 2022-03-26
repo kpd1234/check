@@ -18,9 +18,9 @@ i4='imgs/r4.jpeg'
 i5='imgs/r5.jpeg'
 
 l=[i1,i2,i3,i4,i5]
-p=['imgs/chick.jpg','imgs/goat.jpg']
+p=['imgs/chick.jpg']
 
-st.image(p, width=200, caption=["",""])
+st.image(p, width=200, caption=[""])
 cb, mb = st.columns([.4,1])
 
 
