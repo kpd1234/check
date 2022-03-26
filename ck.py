@@ -1,4 +1,3 @@
-# Importing all necessary libraries
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
@@ -7,23 +6,37 @@ from keras import backend as K
 import streamlit as st
 st.title("Healthy Meat for a Healthy You!")
 st.markdown("<span style=“background-color:#121922”>",unsafe_allow_html=True)
-st.write('Choose your meat type')
 from PIL import Image
-image = Image.open('chick.jpg')
 
-st.image(image,width=200)
+i1='r1.jpeg'
+i2='r2.jpeg'
+i3='r3.jpeg'
+i4='r4.jpeg'
+i5='r5.jpeg'
 
-if st.button('Chicken'):
+l=[i1,i2,i3,i4,i5]
+p=['chick.jpg','goat.jpg']
+
+st.image(p, width=200, caption=["",""])
+cb, mb = st.columns([.4,1])
+
+with cb:
+    c=st.button('Chicken')
+with mb:
+    st.button('Mutton')
+
+if c:
      st.write('Start Capturing or Upload Image')
+
 else:
-     st.write('Choose an Image')
+     st.write('Choose your Meat Type')
 img_width, img_height = 224, 224
 train_data_dir = 'chicken_train'
 validation_data_dir = 'chicken_test'
-nb_train_samples =22
-nb_validation_samples = 22
-epochs = 3
-batch_size = 5
+nb_train_samples =100
+nb_validation_samples = 100
+epochs = 10
+batch_size = 16
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
 else:
@@ -77,6 +90,7 @@ model.fit_generator(
     validation_data=validation_generator,
     validation_steps=nb_validation_samples // batch_size)
 model.save('model_saved.h5')
+import random
 from keras.models import load_model
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
@@ -98,72 +112,56 @@ import cv2 as cv2
 
 
 run = st.button("Click to render server camera")
-try:
-     if run:
-         capture = cv2.VideoCapture(0)
-         img_display = st.empty()
-         for i in range(MAX_FRAMES):
-             ret, img = capture.read()
 
-         capture.release()
-         st.markdown("Render complete")
-         cv2.imwrite("newcap.1.jpg",img) #save image
-         try:
-                 image = load_img('testfile/'+str(nn), target_size=(227, 227))
-                 img = np.array(image)
-                 img = img / 255.0
-                 img = img.reshape(1,227,227,3)
-                 label = model.predict(img)
-                 st.write("Predicted Class (0 - Fresh , 1 - Unfresh): ", (label[0][0]))
-                 st.title("Freshness Report")
-                 st.write("Chosen Meat: Chicken")
-                 image = Image.open('chick.jpg')
-                 st.image(image,width=200)
-                 st.write('Color')
-                 if ((label[0][0])<.40):
-                     im = Image.open('90p.jpg')
-                     st.image(im,width=200)
-                 elif (.41<(label[0][0])<.55):
-                     im = Image.open('70p.jpg')
-                     st.image(im,width=200)
-                 elif (.55<(label[0][0])<1):
-                     im = Image.open('40p.jpg')
-                     st.image(im,width=200)
+if run:
+    capture = cv2.VideoCapture(0)
+    img_display = st.empty()
+    for i in range(MAX_FRAMES):
+        ret, img = capture.read()
+        img_display.image(img, channels='BGR')
+    capture.release()
+    st.markdown("Render complete")
+    cv2.imwrite("newcap.1.jpg",img) #save image
+    try:
+            image = load_img('testfile/'+str(nn), target_size=(227, 227))
+            img = np.array(image)
+            img = img / 255.0
+            img = img.reshape(1,227,227,3)
+            label = model.predict(img)
+            st.write("Predicted Class (0 - Fresh , 1 - Unfresh): ", (label[0][0]))
+            st.title("Freshness Report")
+            st.write("Chosen Meat: Chicken")
+            image = Image.open('chick.jpg')
+            st.image(image,width=200)
 
-                 st.write('Freshness')
-                 if ((label[0][0])<.30):
-                     im = Image.open('90p.jpg')
-                     st.image(im,width=200)
-                 elif (.30<(label[0][0])<=.50):
-                     im = Image.open('70p.jpg')
-                     st.image(im,width=200)
-                 elif (.50<(label[0][0])<.70):
-                     im = Image.open('40p.jpg')
-                     st.image(im,width=200)
-                 elif (.70<(label[0][0])<.80):
-                     im = Image.open('30p.jpg')
-                     st.image(im,width=200)
-                 st.write("Decision ")
-                 if ((label[0][0])<=.50):
-                     st.write("Fresh Meat")
-                     im = Image.open('wb.jpg')
-                     st.image(im,width=200)
-                 elif ((label[0][0])>.50):
-                     st.write("Old Meat")
-                     im = Image.open('harm.jpg')
-                     st.image(im,width=200)
+            if ((label[0][0])<.30):
+                kk = ['90p.jpg', '80p.jpg', 'wb.jpg']
+                st.image(kk, width=230, caption=["Color","Freshness","Decision"])
+                st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
+                j=random.choice(l)
+                im = Image.open(j)
+                st.image(im)
+            elif (.30<(label[0][0])<.50):
+                kk = ['80p.jpg', '70p.jpg', 'wb.jpg']
+                st.image(kk, width=230, caption=["Color","Freshness","Decision"])
+                st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
+                j=random.choice(l)
+                im = Image.open(j)
+                st.image(im)
+            elif (.50<(label[0][0])<.60):
+                kk = ['50p.jpg', '40p.jpg', 'harm.jpg']
+                st.image(kk, width=230, caption=["Color","Freshness","Decision"])
+            elif(.60<(label[0][0])<1):
+                kk = ['40p.jpg', '30p.jpg', 'harm.jpg']
+                st.image(kk, width=230, caption=["Color","Freshness","Decision"])
 
-                 st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
-                 im = Image.open('r1.jpeg')
-                 st.image(im)
-         except:
-                 image = Image.open('index.jpg')
-                 st.image(image,width=200)
-                 st.write("Try with a meat image!")
-except:
-     image = Image.open('index.jpg')
-     st.image(image,width=200)
-     st.write("Try uploading a meat image!")
+
+ 
+    except:
+            image = Image.open('index.jpg')
+            st.image(image,width=200)
+            st.write("Try with a meat image!")
+
 
 ii = st.file_uploader("Choose an image...", type=".jpg")
 if ii is not None:
@@ -175,50 +173,34 @@ if ii is not None:
         img = img.reshape(1,227,227,3)
         label = model.predict(img)
         st.write("Predicted Class (0 - Fresh , 1 - Unfresh): ", (label[0][0]))
-        st.title("Freshness Report")
+        st.markdown("<h3 style='text-align: center; color: black;'>Freshness Report</h1>", unsafe_allow_html=True)
         st.write("Chosen Meat: Chicken")
         image = Image.open('chick.jpg')
         st.image(image,width=200)
-        st.write('Color')
-        if ((label[0][0])<.40):
-            im = Image.open('90p.jpg')
-            st.image(im,width=200)
-        elif (.41<(label[0][0])<.55):
-            im = Image.open('70p.jpg')
-            st.image(im,width=200)
-        elif (.55<(label[0][0])<1):
-            im = Image.open('40p.jpg')
-            st.image(im,width=200)
 
-        st.write('Freshness')
         if ((label[0][0])<.30):
-            im = Image.open('90p.jpg')
-            st.image(im,width=200)
-        elif (.30<(label[0][0])<=.50):
-            im = Image.open('70p.jpg')
-            st.image(im,width=200)
-        elif (.50<(label[0][0])<.70):
-            im = Image.open('40p.jpg')
-            st.image(im,width=200)
-        elif (.70<(label[0][0])<.80):
-            im = Image.open('30p.jpg')
-            st.image(im,width=200)
-        st.write("Decision ")
-        if ((label[0][0])<=.50):
-            st.write("Fresh Meat")
-            im = Image.open('wb.jpg')
-            st.image(im,width=200)
-        elif ((label[0][0])>.50):
-            st.write("Old Meat")
-            im = Image.open('harm.jpg')
-            st.image(im,width=200)
+            kk = ['90p.jpg', '80p.jpg', 'wb.jpg']
+            st.image(kk, width=230, caption=["Color","Freshness","Decision"])
+            st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
+            j=random.choice(l)
+            im = Image.open(j)
+            st.image(im)
+        elif (.30<(label[0][0])<.50):
+            kk = ['80p.jpg', '70p.jpg', 'wb.jpg']
+            st.image(kk, width=230, caption=["Color","Freshness","Decision"])
+            st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
+            j=random.choice(l)
+            im = Image.open(j)
+            st.image(im)
+        elif (.50<(label[0][0])<.60):
+            kk = ['50p.jpg', '40p.jpg', 'harm.jpg']
+            st.image(kk, width=230, caption=["Color","Freshness","Decision"])
+        elif(.60<(label[0][0])<1):
+            kk = ['40p.jpg', '30p.jpg', 'harm.jpg']
+            st.image(kk, width=230, caption=["Color","Freshness","Decision"])
 
-        st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
-        im = Image.open('r1.jpeg')
-        st.image(im)
+        
     except:
         image = Image.open('index.jpg')
         st.image(image,width=200)
         st.write("Try with a meat image!")
-        
-    
