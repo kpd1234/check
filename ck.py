@@ -4,7 +4,7 @@ from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
 from keras import backend as K
 import streamlit as st
-image = Image.open('C:/Users/ptljk/ic.jpeg')
+image = Image.open('imgs/ic.jpeg')
 st.image(image,width=600)
 st.markdown("<span style=“background-color:#121922”>",unsafe_allow_html=True)
 from PIL import Image
