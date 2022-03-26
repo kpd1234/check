@@ -23,16 +23,8 @@ p=['imgs/chick.jpg','imgs/goat.jpg']
 st.image(p, width=200, caption=["",""])
 cb, mb = st.columns([.4,1])
 
-with cb:
-    c=st.button('Chicken')
-with mb:
-    st.button('Mutton')
 
-if c:
-     st.write('Start Capturing or Upload Image')
 
-else:
-     st.write('Choose your Meat Type')
 img_width, img_height = 224, 224
 train_data_dir = 'chicken_train2'
 validation_data_dir = 'chicken_test2'
@@ -111,60 +103,9 @@ model = keras.models.load_model('model_saved.h5')
 
 
 MAX_FRAMES = 2
-import cv2 as cv2
-
-
-run = st.button("Click to render server camera")
-try:
-    if run:
-        capture = cv2.VideoCapture(0)
-        img_display = st.empty()
-        for i in range(MAX_FRAMES):
-            ret, img = capture.read()
-            img_display.image(img, channels='BGR')
-        capture.release()
-        st.markdown("Render complete")
-        cv2.imwrite("newcap.1.jpg",img) #save image
-        try:
-                image = load_img('testfile/'+str(nn), target_size=(227, 227))
-                img = np.array(image)
-                img = img / 255.0
-                img = img.reshape(1,227,227,3)
-                label = model.predict(img)
-                st.write("Predicted Class (Towards 0% - Fresh Meat , Towards 100% - Stale Meat): ", abs(100-round((label[0][0])*100)),'%')
-                st.title("Freshness Report")
-                st.write("Chosen Meat: Chicken")
-
-                if ((label[0][0])<.30):
-                    kk = ['imgs/chick.jpg','imgs/90p.jpg', 'imgs/80p.jpg', 'imgs/wb.jpg']
-                    st.image(kk, width=170, caption=["Chosen Meat","Color","Freshness","Decision"])
-                    st.markdown("<h3 style='text-align: center; color: black;'>Healthy Reciecipe of the day</h3>", unsafe_allow_html=True)
-                    j=random.choice(l)
-                    im = Image.open(j)
-                    st.image(im)
-                elif (.30<(label[0][0])<.50):
-                    kk = ['imgs/chick.jpg','imgs/80p.jpg', 'imgs/70p.jpg', 'imgs/wb.jpg']
-                    st.image(kk, width=170, caption=["Chosen Meat","Color","Freshness","Decision"])
-                    st.markdown("<h3 style='text-align: center; color: black;'>Healthy Reciecipe of the day</h3>", unsafe_allow_html=True)
-                    j=random.choice(l)
-                    im = Image.open(j)
-                    st.image(im)
-                elif (.50<(label[0][0])<.60):
-                    kk = ['imgs/chick.jpg','imgs/50p.jpg', 'imgs/40p.jpg', 'imgs/harm.jpg']
-                    st.image(kk, width=170, caption=["Chosen Meat","Color","Freshness","Decision"])
-                elif(.60<(label[0][0])<1):
-                    kk = ['imgs/chick.jpg','imgs/40p.jpg', 'imgs/30p.jpg', 'imgs/harm.jpg']
-                    st.image(kk, width=170, caption=["Chosen Meat","Color","Freshness","Decision"])
 
 
 
-        except:
-                image = Image.open('imgs/index.jpg')
-                st.image(image,width=200)
-                st.write("Try with a meat image!")
-
-except:
-    st.write("Please use the uploader")
 ii = st.file_uploader("Choose an image...", type=".jpg")
 if ii is not None:
     nn=ii.name
