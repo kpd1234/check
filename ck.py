@@ -8,14 +8,14 @@ st.title("Healthy Meat for a Healthy You!")
 st.markdown("<span style=“background-color:#121922”>",unsafe_allow_html=True)
 from PIL import Image
 
-i1='r1.jpeg'
-i2='r2.jpeg'
-i3='r3.jpeg'
-i4='r4.jpeg'
-i5='r5.jpeg'
+i1='imgs/r1.jpeg'
+i2='imgs/r2.jpeg'
+i3='imgs/r3.jpeg'
+i4='imgs/r4.jpeg'
+i5='imgs/r5.jpeg'
 
 l=[i1,i2,i3,i4,i5]
-p=['chick.jpg','goat.jpg']
+p=['imgs/chick.jpg','imgs/goat.jpg']
 
 st.image(p, width=200, caption=["",""])
 cb, mb = st.columns([.4,1])
@@ -31,12 +31,12 @@ if c:
 else:
      st.write('Choose your Meat Type')
 img_width, img_height = 224, 224
-train_data_dir = 'chicken_train'
-validation_data_dir = 'chicken_test'
-nb_train_samples =100
-nb_validation_samples = 100
-epochs = 3
-batch_size = 5
+train_data_dir = 'chicken_train2'
+validation_data_dir = 'chicken_test2'
+nb_train_samples =22
+nb_validation_samples = 22
+epochs = 10
+batch_size = 16
 if K.image_data_format() == 'channels_first':
     input_shape = (3, img_width, img_height)
 else:
@@ -128,37 +128,35 @@ if run:
             img = img / 255.0
             img = img.reshape(1,227,227,3)
             label = model.predict(img)
-            st.write("Predicted Class (0 - Fresh , 1 - Unfresh): ", (label[0][0]))
+            st.write("Predicted Class (Towards 0% - Fresh Meat , Towards 100% - Stale Meat): ", abs(100-round((label[0][0])*100)),'%')
             st.title("Freshness Report")
             st.write("Chosen Meat: Chicken")
-            image = Image.open('chick.jpg')
-            st.image(image,width=200)
 
             if ((label[0][0])<.30):
-                kk = ['90p.jpg', '80p.jpg', 'wb.jpg']
-                st.image(kk, width=230, caption=["Color","Freshness","Decision"])
-                st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
+                kk = ['chick.jpg','90p.jpg', '80p.jpg', 'wb.jpg']
+                st.image(kk, width=170, caption=["Chosen Meat","Color","Freshness","Decision"])
+                st.markdown("<h3 style='text-align: center; color: black;'>Healthy Reciecipe of the day</h3>", unsafe_allow_html=True)
                 j=random.choice(l)
                 im = Image.open(j)
                 st.image(im)
             elif (.30<(label[0][0])<.50):
-                kk = ['80p.jpg', '70p.jpg', 'wb.jpg']
-                st.image(kk, width=230, caption=["Color","Freshness","Decision"])
-                st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
+                kk = ['chick.jpg','80p.jpg', '70p.jpg', 'wb.jpg']
+                st.image(kk, width=170, caption=["Chosen Meat","Color","Freshness","Decision"])
+                st.markdown("<h3 style='text-align: center; color: black;'>Healthy Reciecipe of the day</h3>", unsafe_allow_html=True)
                 j=random.choice(l)
                 im = Image.open(j)
                 st.image(im)
             elif (.50<(label[0][0])<.60):
-                kk = ['50p.jpg', '40p.jpg', 'harm.jpg']
-                st.image(kk, width=230, caption=["Color","Freshness","Decision"])
+                kk = ['chick.jpg','50p.jpg', '40p.jpg', 'harm.jpg']
+                st.image(kk, width=170, caption=["Chosen Meat","Color","Freshness","Decision"])
             elif(.60<(label[0][0])<1):
-                kk = ['40p.jpg', '30p.jpg', 'harm.jpg']
-                st.image(kk, width=230, caption=["Color","Freshness","Decision"])
+                kk = ['chick.jpg','40p.jpg', '30p.jpg', 'harm.jpg']
+                st.image(kk, width=170, caption=["Chosen Meat","Color","Freshness","Decision"])
 
 
  
     except:
-            image = Image.open('index.jpg')
+            image = Image.open('imgs/index.jpg')
             st.image(image,width=200)
             st.write("Try with a meat image!")
 
@@ -172,35 +170,34 @@ if ii is not None:
         img = img / 255.0
         img = img.reshape(1,227,227,3)
         label = model.predict(img)
-        st.write("Predicted Class (0 - Fresh , 1 - Unfresh): ", (label[0][0]))
-        st.markdown("<h3 style='text-align: center; color: black;'>Freshness Report</h1>", unsafe_allow_html=True)
+        st.write("Predicted Class (Towards 0% - Stale Meat, Towards 100% - Fresh Meat): ",abs(100-round((label[0][0])*100)), '%')
+        st.markdown("<h3 style='text-align: center; color: black;'>Freshness Report</h3>", unsafe_allow_html=True)
         st.write("Chosen Meat: Chicken")
-        image = Image.open('chick.jpg')
-        st.image(image,width=200)
 
         if ((label[0][0])<.30):
-            kk = ['90p.jpg', '80p.jpg', 'wb.jpg']
-            st.image(kk, width=230, caption=["Color","Freshness","Decision"])
-            st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
+            kk = ['chick.jpg','90p.jpg', '80p.jpg', 'wb.jpg']
+            st.image(kk, width=170, caption=["Chosen Meat","Color","Freshness","Decision"])
+            st.markdown("<h3 style='text-align: center; color: black;'>Healthy Reciecipe of the day</h3>", unsafe_allow_html=True)
+
             j=random.choice(l)
             im = Image.open(j)
             st.image(im)
         elif (.30<(label[0][0])<.50):
-            kk = ['80p.jpg', '70p.jpg', 'wb.jpg']
-            st.image(kk, width=230, caption=["Color","Freshness","Decision"])
-            st.write('Thanks for choosing our application, Find your complementary Recepie to Healthify You!')
+            kk = ['chick.jpg','80p.jpg', '70p.jpg', 'wb.jpg']
+            st.image(kk, width=170, caption=["Chosen Meat","Color","Freshness","Decision"])
+            st.markdown("<h3 style='text-align: center; color: black;'>Healthy Reciecipe of the day</h3>", unsafe_allow_html=True)
             j=random.choice(l)
             im = Image.open(j)
             st.image(im)
         elif (.50<(label[0][0])<.60):
-            kk = ['50p.jpg', '40p.jpg', 'harm.jpg']
-            st.image(kk, width=230, caption=["Color","Freshness","Decision"])
+            kk = ['chick.jpg','50p.jpg', '40p.jpg', 'harm.jpg']
+            st.image(kk, width=170, caption=["Chosen Meat","Color","Freshness","Decision"])
         elif(.60<(label[0][0])<1):
-            kk = ['40p.jpg', '30p.jpg', 'harm.jpg']
-            st.image(kk, width=230, caption=["Color","Freshness","Decision"])
+            kk = ['chick.jpg','40p.jpg', '30p.jpg', 'harm.jpg']
+            st.image(kk, width=170, caption=["Chosen Meat","Color","Freshness","Decision"])
 
         
     except:
-        image = Image.open('index.jpg')
+        image = Image.open('imgs/index.jpg')
         st.image(image,width=200)
         st.write("Try with a meat image!")
